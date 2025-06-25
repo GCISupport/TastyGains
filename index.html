@@ -111,7 +111,7 @@
         }
         .brand-logo {
             display: block;
-            height: 200px;
+            height: 180px;
             width: auto;
             margin: 0 auto 10px auto;
             text-align: center;
@@ -171,16 +171,25 @@
         .progress-text {
             text-align: center;
             margin-top: 12px;
+            margin-bottom: 4px;
             font-size: 14px;
             color: #666;
             font-weight: 600;
+        }
+
+        .question-counter {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 20px;
+            font-weight: 500;
         }
 
         .question {
             display: none;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.5s ease;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .question.active {
@@ -194,6 +203,7 @@
             font-weight: 700;
             color: #333;
             margin-bottom: 8px;
+            text-align: center;
         }
 
         .question-subtitle {
@@ -201,6 +211,7 @@
             color: #666;
             margin-bottom: 25px;
             line-height: 1.4;
+            text-align: center;
         }
 
         .options {
@@ -246,6 +257,13 @@
             color: white;
             transform: translateY(-3px);
             box-shadow: 0 12px 35px rgba(102, 126, 234, 0.3);
+            animation: confirmSelection 0.3s ease;
+        }
+
+        @keyframes confirmSelection {
+            0% { transform: translateY(-3px) scale(1); }
+            50% { transform: translateY(-3px) scale(1.02); }
+            100% { transform: translateY(-3px) scale(1); }
         }
 
         .option.selected::before {
@@ -264,18 +282,18 @@
             line-height: 1.3;
         }
 
+        .results-education {
+            margin-top: 30px;
+            text-align: left;
+        }
+
         .education-tip {
             background: linear-gradient(135deg, #ffeaa7, #fab1a0);
             padding: 16px;
             border-radius: 12px;
-            margin: 8px 0 0 0;
+            margin: 15px 0;
             border-left: 4px solid #e17055;
             animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         .education-tip h4 {
@@ -295,7 +313,7 @@
             background: linear-gradient(135deg, #a8e6cf, #81c784);
             padding: 12px 16px;
             border-radius: 10px;
-            margin: 8px 0 0 0;
+            margin: 15px 0;
             text-align: center;
             animation: slideIn 0.5s ease;
         }
@@ -304,6 +322,11 @@
             font-size: 13px;
             color: #2e7d32;
             font-weight: 600;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .nav-buttons {
@@ -595,6 +618,7 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
         <div class="progress-text" id="progressText">Getting to know your goals...</div>
+        <div class="question-counter" id="questionCounter">Question 1 of 12</div>
 
         <!-- Question 1 -->
         <div class="question active" data-question="1">
@@ -917,12 +941,14 @@
                 <button class="btn-primary" onclick="claimOffer()">
                     🚀 CLAIM MY STACK - START TRANSFORMING
                 </button>
-                <button class="btn-secondary" onclick="viewOneTime()">
-                    View One-Time Purchase Options
-                </button>
                 <button class="btn-secondary" onclick="retakeQuiz()" style="margin-top: 1rem;">
                     🔄 RETAKE QUIZ
                 </button>
+            </div>
+
+            <!-- Educational & Social Content for Results Page -->
+            <div class="results-education" id="resultsEducation">
+                <!-- Content will be dynamically added here -->
             </div>
         </div>
 
@@ -964,8 +990,12 @@
                 updateUserProfile(questionNum, value);
                 document.getElementById('nextBtn').disabled = false;
                 
-                addEducationalContent(questionNum, value);
-                addSocialProof(questionNum, value);
+                // Instant auto-advance - no delay
+                if (currentQuestion < totalQuestions) {
+                    nextQuestion();
+                } else {
+                    showResults();
+                }
             }
         });
 
@@ -1010,471 +1040,6 @@
             }
         }
 
-        function addEducationalContent(questionNum, value) {
-            const question = document.querySelector('[data-question="' + questionNum + '"]');
-            question.querySelectorAll('.education-tip').forEach(tip => tip.remove());
-
-            let tipContent = null;
-
-            if (questionNum === 1) {
-                if (value === 'new') {
-                    tipContent = {
-                        title: "🌱 Perfect Starting Point",
-                        text: "New users see 40% faster results with our guided approach. We'll recommend the optimal starter stack and provide step-by-step guidance."
-                    };
-                } else if (value === 'experienced') {
-                    tipContent = {
-                        title: "🚀 Advanced Optimization",
-                        text: "Experienced users unlock our premium formulations and advanced protocols. Time to break through your next level."
-                    };
-                } else if (value === 'some') {
-                    tipContent = {
-                        title: "💪 Ready to Level Up",
-                        text: "With some experience, you're ready for our intermediate protocols. Users like you see 25% better results with optimized stacking."
-                    };
-                }
-            }
-
-            if (questionNum === 2) {
-                if (value === 'muscle') {
-                    tipContent = {
-                        title: "💪 Muscle Building Science",
-                        text: "Our creatine increases protein synthesis by 15-22%. Combined with pre-workout, users gain 3-5 lbs more muscle in 8 weeks."
-                    };
-                } else if (value === 'focus') {
-                    tipContent = {
-                        title: "🧠 Cognitive Enhancement",
-                        text: "Our nootropic blend increases focus by 67% within 30 minutes. Perfect for both mental and physical performance."
-                    };
-                } else if (value === 'strength') {
-                    tipContent = {
-                        title: "🏋️ Power Amplification",
-                        text: "Strength athletes report 15-25% max lift increases in 4 weeks. Our combination maximizes explosive power output."
-                    };
-                } else if (value === 'endurance') {
-                    tipContent = {
-                        title: "🏃 Endurance Revolution",
-                        text: "Marathon runners extend their sessions by 20-30 minutes. Our formula prevents fatigue cascade and maintains peak performance."
-                    };
-                } else if (value === 'general') {
-                    tipContent = {
-                        title: "🌟 Holistic Wellness",
-                        text: "Complete wellness users report improved energy, enhanced sleep quality, and elevated daily performance within 2 weeks."
-                    };
-                }
-            }
-
-            if (questionNum === 3) {
-                if (value === 'energy') {
-                    tipContent = {
-                        title: "⚡ Energy Revolution",
-                        text: "Low energy destroys motivation. Our sustained-release pre-workout provides 4-6 hours of clean energy without afternoon crashes."
-                    };
-                } else if (value === 'focus_challenge') {
-                    tipContent = {
-                        title: "🎯 Laser Focus Protocol",
-                        text: "Wandering minds waste workouts. Our nootropics create tunnel vision focus for maximum training intensity."
-                    };
-                } else if (value === 'recovery') {
-                    tipContent = {
-                        title: "😴 Recovery Acceleration",
-                        text: "Slow recovery limits progress. Our creatine reduces muscle soreness by 40% and speeds tissue repair."
-                    };
-                } else if (value === 'plateau') {
-                    tipContent = {
-                        title: "📈 Plateau Destroyer",
-                        text: "Plateaus signal adaptation limits. Our advanced stacks provide the stimulus needed for breakthrough performance."
-                    };
-                } else if (value === 'time') {
-                    tipContent = {
-                        title: "⏰ Efficiency Maximizer",
-                        text: "Busy schedules demand results. Our all-in-one approach delivers maximum gains in minimum time."
-                    };
-                }
-            }
-
-            if (questionNum === 4) {
-                if (value === '5-6days') {
-                    tipContent = {
-                        title: "🔥 Elite Training Support",
-                        text: "High-frequency training demands premium recovery. Elite athletes need pharmaceutical-grade nutrients for optimal adaptation."
-                    };
-                } else if (value === 'daily') {
-                    tipContent = {
-                        title: "🚀 Championship Level Protocol",
-                        text: "Daily training requires world-class recovery systems. Our elite formulations are designed for peak performance athletes who train every day."
-                    };
-                } else if (value === '1-2days') {
-                    tipContent = {
-                        title: "💎 Weekend Warrior Optimization",
-                        text: "Limited training windows require strategic supplementation. Our targeted formulas maximize every single session."
-                    };
-                } else if (value === '3-4days') {
-                    tipContent = {
-                        title: "🎯 Goldilocks Zone",
-                        text: "This frequency hits the sweet spot for muscle growth and recovery. Our standard protocols are calibrated for this routine."
-                    };
-                }
-            }
-
-            if (questionNum === 5) {
-                if (value === 'morning') {
-                    tipContent = {
-                        title: "🌅 Dawn Warrior Protocol",
-                        text: "Early birds need sustained energy architecture. Our formula builds momentum that carries through your entire day."
-                    };
-                } else if (value === 'evening') {
-                    tipContent = {
-                        title: "🌆 Night Training Science",
-                        text: "Evening sessions require sleep-friendly stimulation. Our caffeine-controlled blend energizes without disrupting rest."
-                    };
-                } else if (value === 'midday') {
-                    tipContent = {
-                        title: "☀️ Lunch Break Power",
-                        text: "Midday trainers need rapid activation. Our fast-absorbing formula kicks in within 15 minutes for instant readiness."
-                    };
-                } else if (value === 'varies') {
-                    tipContent = {
-                        title: "🔄 Adaptive Nutrition",
-                        text: "Variable schedules need flexible solutions. Our balanced formulation works optimally regardless of timing."
-                    };
-                }
-            }
-
-            if (questionNum === 6) {
-                if (value === 'fruity') {
-                    tipContent = {
-                        title: "🍓 Taste Innovation",
-                        text: "Our Blue Raspberry consistently wins blind taste tests. Premium flavoring makes daily supplementation enjoyable."
-                    };
-                } else if (value === 'variety') {
-                    tipContent = {
-                        title: "🌈 Rotation Strategy",
-                        text: "Flavor rotation prevents supplement fatigue. Our diverse profile library keeps daily nutrition exciting."
-                    };
-                } else if (value === 'classic') {
-                    tipContent = {
-                        title: "🍃 Pure Simplicity",
-                        text: "Clean flavor profiles indicate pure ingredients. No masking agents or artificial aftertastes - just effective nutrition."
-                    };
-                } else if (value === 'no_preference') {
-                    tipContent = {
-                        title: "🎯 Performance Priority",
-                        text: "Results-over-taste mindset indicates serious commitment. Performance-focused users achieve goals 20% faster."
-                    };
-                }
-            }
-
-            if (questionNum === 7) {
-                if (value === 'effectiveness') {
-                    tipContent = {
-                        title: "🎯 Results-First Philosophy",
-                        text: "Maximum effectiveness users access our most potent formulations. We'll recommend clinically-dosed combinations."
-                    };
-                } else if (value === 'premium') {
-                    tipContent = {
-                        title: "👑 VIP Excellence",
-                        text: "Premium tier unlocks our highest-grade ingredients, exclusive formulations, and priority customer success support."
-                    };
-                } else if (value === 'simplicity') {
-                    tipContent = {
-                        title: "✨ Streamlined Success",
-                        text: "All-in-one simplicity eliminates decision fatigue. Streamlined users maintain 80% better long-term adherence."
-                    };
-                } else if (value === 'value') {
-                    tipContent = {
-                        title: "💰 Smart Economics",
-                        text: "Value optimization means maximum results per dollar. We engineer cost-effective solutions without quality compromise."
-                    };
-                }
-            }
-
-            if (questionNum === 8) {
-                if (value === 'fast') {
-                    tipContent = {
-                        title: "⚡ Rapid Transformation",
-                        text: "Accelerated results require intensive protocols. Our high-dose approach delivers visible changes within 2-3 weeks."
-                    };
-                } else if (value === 'steady') {
-                    tipContent = {
-                        title: "📈 Sustainable Progression",
-                        text: "Steady builders create lasting transformations. 2-3 month timelines allow for habit formation and permanent change."
-                    };
-                } else if (value === 'longterm') {
-                    tipContent = {
-                        title: "🏆 Legacy Transformation",
-                        text: "Long-term vision creates extraordinary results. True body recomposition requires patience but delivers lifetime benefits."
-                    };
-                }
-            }
-
-            if (questionNum === 9) {
-                if (value === 'disappointed') {
-                    tipContent = {
-                        title: "🎯 Redemption Protocol",
-                        text: "Past disappointments end here. Our pharmaceutical-grade manufacturing and third-party testing guarantee real results."
-                    };
-                } else if (value === 'multiple') {
-                    tipContent = {
-                        title: "🔄 Stack Optimization",
-                        text: "Multi-supplement users benefit from synergy analysis. We'll identify interactions and optimize your complete regimen."
-                    };
-                } else if (value === 'none') {
-                    tipContent = {
-                        title: "🚀 Clean Slate Advantage",
-                        text: "Starting fresh eliminates bad habits and misinformation. You'll build the perfect foundation from day one."
-                    };
-                } else if (value === 'basic') {
-                    tipContent = {
-                        title: "📈 Foundation Expansion",
-                        text: "Protein powder is excellent groundwork. Adding targeted performance nutrients amplifies your existing routine exponentially."
-                    };
-                }
-            }
-
-            if (questionNum === 10) {
-                if (value === 'premium') {
-                    tipContent = {
-                        title: "💎 Investment Excellence",
-                        text: "Premium investment accesses our most advanced formulations, personalized protocols, and exclusive member benefits."
-                    };
-                } else if (value === 'no_limit') {
-                    tipContent = {
-                        title: "🚀 Ultimate Performance Investment", 
-                        text: "When results matter most, our platinum-tier formulations unlock maximum potential. No compromises, just pure excellence."
-                    };
-                } else if (value === 'budget') {
-                    tipContent = {
-                        title: "💰 Value Engineering",
-                        text: "Budget consciousness doesn't sacrifice quality. Our foundation stacks deliver exceptional results through smart formulation."
-                    };
-                } else if (value === 'moderate') {
-                    tipContent = {
-                        title: "⚖️ Sweet Spot Investment",
-                        text: "This range unlocks our most popular combinations. Balanced investment delivers premium results without overspending."
-                    };
-                }
-            }
-
-            if (questionNum === 11) {
-                if (value === 'transformation') {
-                    tipContent = {
-                        title: "🔥 Complete Metamorphosis",
-                        text: "Long-term commitment unlocks our most powerful transformation protocols. All-in users see 2-3x more dramatic results."
-                    };
-                } else if (value === 'committed') {
-                    tipContent = {
-                        title: "💪 Dedicated Success",
-                        text: "3-6 month commitment creates lasting change. This timeframe allows for complete habit integration and body adaptation."
-                    };
-                } else if (value === 'trial') {
-                    tipContent = {
-                        title: "🤔 Strategic Testing",
-                        text: "Smart testing minimizes risk. Most trial users upgrade within 2 weeks when they experience the effectiveness firsthand."
-                    };
-                }
-            }
-
-            if (questionNum === 12) {
-                if (value === 'coaching') {
-                    tipContent = {
-                        title: "👨‍🏫 Personal Mastery",
-                        text: "1-on-1 coaching accelerates results by 150%. Get personalized adjustments, accountability, and expert troubleshooting."
-                    };
-                } else if (value === 'community') {
-                    tipContent = {
-                        title: "👥 Tribe Power",
-                        text: "Community connection sustains motivation. Surround yourself with like-minded individuals pursuing similar transformations."
-                    };
-                } else if (value === 'meal_planning') {
-                    tipContent = {
-                        title: "🍽️ Nutritional Synergy",
-                        text: "Meal planning amplifies supplement effectiveness by 40%. Nutrition and supplementation create powerful synergistic effects."
-                    };
-                } else if (value === 'workout_tips') {
-                    tipContent = {
-                        title: "🏋️ Training Mastery",
-                        text: "Workout optimization users see 25% faster progress. Proper training methodology maximizes supplement investment."
-                    };
-                }
-            }
-
-            if (tipContent) {
-                const selectedOption = question.querySelector('.option.selected');
-                if (selectedOption) {
-                    const tip = document.createElement('div');
-                    tip.className = 'education-tip';
-                    tip.innerHTML = '<h4>' + tipContent.title + '</h4><p>' + tipContent.text + '</p>';
-                    selectedOption.insertAdjacentElement('afterend', tip);
-                }
-            }
-        }
-
-        function addSocialProof(questionNum, value) {
-            const question = document.querySelector('[data-question="' + questionNum + '"]');
-            question.querySelectorAll('.social-proof').forEach(proof => proof.remove());
-
-            let proofText = '';
-
-            if (questionNum === 1) {
-                if (value === 'experienced') {
-                    proofText = "Advanced users report 40% faster optimization with our premium stacks";
-                } else if (value === 'new') {
-                    proofText = "95% of new users stick with their supplement routine using our guidance";
-                } else if (value === 'some') {
-                    proofText = "Intermediate users break through plateaus 60% faster with proper guidance";
-                }
-            }
-
-            if (questionNum === 2) {
-                if (value === 'muscle') {
-                    proofText = "87% of muscle builders see visible gains within 4-6 weeks";
-                } else if (value === 'focus') {
-                    proofText = "94% report improved mental clarity within the first week";
-                } else if (value === 'strength') {
-                    proofText = "Strength-focused users increase max lifts by average 18% in 6 weeks";
-                } else if (value === 'endurance') {
-                    proofText = "Endurance athletes extend workout duration by 25-35% on average";
-                } else if (value === 'general') {
-                    proofText = "Wellness-focused users report improved energy in 92% of cases";
-                }
-            }
-
-            if (questionNum === 3) {
-                if (value === 'energy') {
-                    proofText = "92% eliminate afternoon energy crashes within one week";
-                } else if (value === 'plateau') {
-                    proofText = "89% break through plateaus within 3 weeks of optimization";
-                } else if (value === 'recovery') {
-                    proofText = "Recovery-focused users reduce muscle soreness by 45% on average";
-                } else if (value === 'focus_challenge') {
-                    proofText = "Focus-challenged users see 75% improvement in workout concentration";
-                } else if (value === 'time') {
-                    proofText = "Busy professionals save 30 minutes per workout with our efficient formulas";
-                }
-            }
-
-            if (questionNum === 4) {
-                if (value === '5-6days') {
-                    proofText = "High-frequency trainers choose our advanced stacks 4x more often";
-                } else if (value === 'daily') {
-                    proofText = "Elite daily trainers achieve 40% faster strength gains with our protocols";
-                } else if (value === '3-4days') {
-                    proofText = "Most popular training frequency - 73% of our users train 3-4x per week";
-                } else if (value === '1-2days') {
-                    proofText = "Weekend warriors see 50% better results with targeted supplementation";
-                }
-            }
-
-            if (questionNum === 5) {
-                if (value === 'morning') {
-                    proofText = "Early morning trainers have 85% better consistency rates";
-                } else if (value === 'evening') {
-                    proofText = "Evening warriors maintain energy 90% better with proper supplementation";
-                } else if (value === 'midday') {
-                    proofText = "Lunch break trainers love our fast-acting 15-minute activation";
-                } else if (value === 'varies') {
-                    proofText = "Flexible schedulers maintain routine consistency 80% better";
-                }
-            }
-
-            if (questionNum === 6) {
-                if (value === 'fruity') {
-                    proofText = "Fruity flavor enthusiasts have 95% daily adherence rates";
-                } else if (value === 'variety') {
-                    proofText = "Variety seekers stay motivated 3x longer than single-flavor users";
-                } else if (value === 'classic') {
-                    proofText = "Clean flavor users report 90% satisfaction with taste profiles";
-                } else if (value === 'no_preference') {
-                    proofText = "Results-focused users achieve goals 25% faster than average";
-                }
-            }
-
-            if (questionNum === 7) {
-                if (value === 'premium') {
-                    proofText = "Premium tier users report 60% higher satisfaction with their results";
-                } else if (value === 'effectiveness') {
-                    proofText = "Maximum effectiveness users see improvements 35% faster";
-                } else if (value === 'simplicity') {
-                    proofText = "All-in-one users maintain 80% better long-term consistency";
-                } else if (value === 'value') {
-                    proofText = "Value-conscious users still achieve 90% of premium results";
-                }
-            }
-
-            if (questionNum === 8) {
-                if (value === 'fast') {
-                    proofText = "Quick-results users notice changes 2x faster with intensive protocols";
-                } else if (value === 'steady') {
-                    proofText = "Steady-progress users have 90% long-term transformation success";
-                } else if (value === 'longterm') {
-                    proofText = "Transformation-minded users achieve 300% more dramatic results";
-                }
-            }
-
-            if (questionNum === 9) {
-                if (value === 'disappointed') {
-                    proofText = "Previously disappointed users see 95% satisfaction with our approach";
-                } else if (value === 'multiple') {
-                    proofText = "Multi-supplement users optimize their complete regimen 70% better";
-                } else if (value === 'none') {
-                    proofText = "Fresh starters build perfect habits 85% more successfully";
-                } else if (value === 'basic') {
-                    proofText = "Protein users amplify results by 150% when adding targeted nutrients";
-                }
-            }
-
-            if (questionNum === 10) {
-                if (value === 'premium') {
-                    proofText = "Premium tier users report 60% higher satisfaction with their results";
-                } else if (value === 'no_limit') {
-                    proofText = "Results-first investors achieve goals 75% faster than budget-focused users";
-                } else if (value === 'budget') {
-                    proofText = "Budget-conscious users still see excellent results - 91% satisfaction";
-                } else if (value === 'moderate') {
-                    proofText = "This investment range represents 68% of our most successful users";
-                }
-            }
-
-            if (questionNum === 11) {
-                if (value === 'transformation') {
-                    proofText = "Long-term commitment users report 3x more dramatic body changes";
-                } else if (value === 'committed') {
-                    proofText = "3-6 month dedicated users have 85% higher goal achievement rates";
-                } else if (value === 'trial') {
-                    proofText = "Smart trial users upgrade to longer plans 75% of the time";
-                }
-            }
-
-            if (questionNum === 12) {
-                if (value === 'coaching') {
-                    proofText = "Personal coaching members exceed their goals by 150% on average";
-                } else if (value === 'community') {
-                    proofText = "Community members maintain motivation 3x longer than solo users";
-                } else if (value === 'meal_planning') {
-                    proofText = "Meal planning integration users accelerate results by 40%";
-                } else if (value === 'workout_tips') {
-                    proofText = "Training optimization guidance users see 25% faster progress";
-                }
-            }
-
-            if (proofText) {
-                const selectedOption = question.querySelector('.option.selected');
-                if (selectedOption) {
-                    const proof = document.createElement('div');
-                    proof.className = 'social-proof';
-                    proof.innerHTML = '<p>✨ ' + proofText + '</p>';
-                    
-                    const existingTip = selectedOption.nextElementSibling;
-                    if (existingTip && existingTip.classList.contains('education-tip')) {
-                        existingTip.insertAdjacentElement('afterend', proof);
-                    } else {
-                        selectedOption.insertAdjacentElement('afterend', proof);
-                    }
-                }
-            }
-        }
-
         function nextQuestion() {
             if (currentQuestion < totalQuestions) {
                 document.querySelector('[data-question="' + currentQuestion + '"]').classList.remove('active');
@@ -1483,9 +1048,10 @@
                 if (currentQuestion <= totalQuestions) {
                     const nextQ = document.querySelector('[data-question="' + currentQuestion + '"]');
                     if (nextQ) {
-                        nextQ.classList.add('active');
+                        // Instant transition - no delays
                         updateProgress();
                         updateNavigationState();
+                        nextQ.classList.add('active');
                     } else {
                         showResults();
                     }
@@ -1510,6 +1076,9 @@
         function updateProgress() {
             const progress = (currentQuestion / totalQuestions) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update question counter
+            document.getElementById('questionCounter').textContent = `Question ${currentQuestion} of ${totalQuestions}`;
             
             let progressMessage = '';
             if (currentQuestion <= 4) {
@@ -1540,21 +1109,243 @@
         function showResults() {
             document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
             document.getElementById('navButtons').style.display = 'none';
+            
+            // Keep the logo visible but hide the quiz title/subtitle
+            document.querySelector('.quiz-title').style.display = 'none';
+            document.querySelector('.quiz-subtitle').style.display = 'none';
+            
+            // Generate personalized stack recommendation
+            generatePersonalizedStack();
+            
+            // Add educational content to results page
+            addResultsEducation();
+            
             document.getElementById('results').classList.add('active');
         }
 
+        function generatePersonalizedStack() {
+            const stackData = getPersonalizedStackData();
+            
+            // Update stack name and description
+            document.getElementById('stackName').textContent = stackData.name;
+            document.getElementById('stackDescription').textContent = stackData.description;
+        }
+
+        function getPersonalizedStackData() {
+            const goal = userProfile.primaryGoal;
+            const experience = userProfile.experience;
+            const commitment = userProfile.commitment;
+            
+            // Generate stack name based on primary goal and experience/commitment
+            let stackName = "";
+            let description = "";
+            
+            // Base name from goal
+            if (goal === 'muscle') {
+                stackName = "Muscle Builder";
+            } else if (goal === 'strength') {
+                stackName = "Strength Master";
+            } else if (goal === 'endurance') {
+                stackName = "Endurance Beast";
+            } else if (goal === 'focus') {
+                stackName = "Focus Elite";
+            } else {
+                stackName = "Wellness Warrior";
+            }
+            
+            // Add modifier based on experience/commitment
+            if (commitment === 'transformation' || experience === 'experienced') {
+                stackName = "Elite " + stackName;
+                description = "Premium formulation designed for serious transformation and maximum results.";
+            } else if (experience === 'new') {
+                stackName = stackName + " Starter";
+                description = "Perfectly calibrated for beginners with guided approach and optimal dosing.";
+            } else if (commitment === 'committed') {
+                stackName = stackName + " Pro";
+                description = "Advanced formulation for dedicated users ready to take their results to the next level.";
+            } else {
+                stackName = stackName + " Essential";
+                description = "Carefully selected combination to help you achieve your goals efficiently.";
+            }
+            
+            // Add "Stack" to the end
+            stackName += " Stack";
+            
+            // Add goal-specific description details
+            if (goal === 'muscle') {
+                description += " Optimized for muscle growth, protein synthesis, and strength gains.";
+            } else if (goal === 'strength') {
+                description += " Engineered for explosive power, maximum lifts, and performance breakthroughs.";
+            } else if (goal === 'endurance') {
+                description += " Built for stamina, recovery, and sustained energy throughout long sessions.";
+            } else if (goal === 'focus') {
+                description += " Designed for mental clarity, concentration, and peak cognitive performance.";
+            } else {
+                description += " Balanced approach targeting overall health, energy, and daily vitality.";
+            }
+            
+            return {
+                name: stackName,
+                description: description
+            };
+        }
+
+        function addResultsEducation() {
+            const educationContainer = document.getElementById('resultsEducation');
+            educationContainer.innerHTML = ''; // Clear any existing content
+            
+            // Create educational content based on user's primary answers
+            const educationContent = generateEducationalContent();
+            const socialContent = generateSocialContent();
+            
+            educationContent.forEach(content => {
+                const tip = document.createElement('div');
+                tip.className = 'education-tip';
+                tip.innerHTML = '<h4>' + content.title + '</h4><p>' + content.text + '</p>';
+                educationContainer.appendChild(tip);
+            });
+            
+            socialContent.forEach(content => {
+                const proof = document.createElement('div');
+                proof.className = 'social-proof';
+                proof.innerHTML = '<p>✨ ' + content + '</p>';
+                educationContainer.appendChild(proof);
+            });
+        }
+
+        function generateEducationalContent() {
+            const content = [];
+            
+            // Based on primary goal
+            if (userProfile.primaryGoal === 'muscle') {
+                content.push({
+                    title: "💪 Muscle Building Science",
+                    text: "Our creatine increases protein synthesis by 15-22%. Combined with pre-workout, users gain 3-5 lbs more muscle in 8 weeks."
+                });
+            } else if (userProfile.primaryGoal === 'focus') {
+                content.push({
+                    title: "🧠 Cognitive Enhancement",
+                    text: "Our nootropic blend increases focus by 67% within 30 minutes. Perfect for both mental and physical performance."
+                });
+            } else if (userProfile.primaryGoal === 'strength') {
+                content.push({
+                    title: "🏋️ Power Amplification",
+                    text: "Strength athletes report 15-25% max lift increases in 4 weeks. Our combination maximizes explosive power output."
+                });
+            } else if (userProfile.primaryGoal === 'endurance') {
+                content.push({
+                    title: "🏃 Endurance Revolution",
+                    text: "Marathon runners extend their sessions by 20-30 minutes. Our formula prevents fatigue cascade and maintains peak performance."
+                });
+            } else {
+                content.push({
+                    title: "🌟 Holistic Wellness",
+                    text: "Complete wellness users report improved energy, enhanced sleep quality, and elevated daily performance within 2 weeks."
+                });
+            }
+            
+            // Based on experience level
+            if (userProfile.experience === 'new') {
+                content.push({
+                    title: "🌱 Perfect Starting Point",
+                    text: "New users see 40% faster results with our guided approach. We'll recommend the optimal starter stack and provide step-by-step guidance."
+                });
+            } else if (userProfile.experience === 'experienced') {
+                content.push({
+                    title: "🚀 Advanced Optimization",
+                    text: "Experienced users unlock our premium formulations and advanced protocols. Time to break through your next level."
+                });
+            }
+            
+            // Based on commitment level
+            if (userProfile.commitment === 'transformation') {
+                content.push({
+                    title: "🔥 Complete Metamorphosis",
+                    text: "Long-term commitment unlocks our most powerful transformation protocols. All-in users see 2-3x more dramatic results."
+                });
+            }
+            
+            return content;
+        }
+
+        function generateSocialContent() {
+            const content = [];
+            
+            if (userProfile.primaryGoal === 'muscle') {
+                content.push("87% of muscle builders see visible gains within 4-6 weeks");
+            } else if (userProfile.primaryGoal === 'focus') {
+                content.push("94% report improved mental clarity within the first week");
+            } else if (userProfile.primaryGoal === 'strength') {
+                content.push("Strength-focused users increase max lifts by average 18% in 6 weeks");
+            } else if (userProfile.primaryGoal === 'endurance') {
+                content.push("Endurance athletes extend workout duration by 25-35% on average");
+            } else {
+                content.push("Wellness-focused users report improved energy in 92% of cases");
+            }
+            
+            if (userProfile.experience === 'new') {
+                content.push("95% of new users stick with their supplement routine using our guidance");
+            } else if (userProfile.experience === 'experienced') {
+                content.push("Advanced users report 40% faster optimization with our premium stacks");
+            }
+            
+            if (userProfile.commitment === 'transformation') {
+                content.push("Long-term commitment users report 3x more dramatic body changes");
+            }
+            
+            return content;
+        }
+
         function claimOffer() {
-            const cartUrl = 'https://tastygains.com/cart/add?id=CREATINE_SUBSCRIPTION_VARIANT_ID:1&id=PREWORKOUT_SUBSCRIPTION_VARIANT_ID:1&id=NOOTROPIC_SUBSCRIPTION_VARIANT_ID:1';
+            // Dynamic cart URLs based on user's personalized stack
+            const cartData = getDynamicCartData();
+            
             console.log('Quiz answers:', answers);
             console.log('User profile:', userProfile);
-            console.log('Redirecting to cart:', cartUrl);
-            window.open(cartUrl, '_blank');
+            console.log('Personalized stack:', cartData.stackName);
+            console.log('Redirecting to cart:', cartData.cartUrl);
+            
+            window.open(cartData.cartUrl, '_blank');
+        }
+
+        function getDynamicCartData() {
+            const goal = userProfile.primaryGoal;
+            const experience = userProfile.experience;
+            const commitment = userProfile.commitment;
+            
+            // Base cart with all 3 products (will be updated with real variant IDs)
+            let cartUrl = 'https://tastygains.com/cart/add?';
+            let products = [];
+            
+            // All stacks include the core 3 products for now
+            // These will be replaced with actual variant IDs once Appstle is configured
+            products.push('id=CREATINE_SUBSCRIPTION_VARIANT_ID:1');
+            products.push('id=PREWORKOUT_SUBSCRIPTION_VARIANT_ID:1');
+            products.push('id=NOOTROPIC_SUBSCRIPTION_VARIANT_ID:1');
+            
+            cartUrl += products.join('&');
+            
+            // Future enhancement: Different products based on goals
+            // Example logic for when you have different product variants:
+            /*
+            if (goal === 'muscle') {
+                // Muscle builder might get different dosages or additional products
+                products.push('id=EXTRA_MUSCLE_SUPPORT_VARIANT_ID:1');
+            } else if (goal === 'focus') {
+                // Focus users might get enhanced nootropic dosage
+                products.push('id=ENHANCED_NOOTROPIC_VARIANT_ID:1');
+            }
+            */
+            
+            return {
+                cartUrl: cartUrl,
+                stackName: getPersonalizedStackData().name
+            };
         }
 
         function viewOneTime() {
-            const cartUrl = 'https://tastygains.com/cart/add?id=CREATINE_ONETIME_VARIANT_ID:1&id=PREWORKOUT_ONETIME_VARIANT_ID:1&id=NOOTROPIC_ONETIME_VARIANT_ID:1';
-            console.log('One-time purchase cart:', cartUrl);
-            window.open(cartUrl, '_blank');
+            // Function removed - one-time purchase option not available
+            console.log('One-time purchase option temporarily unavailable');
         }
 
         function retakeQuiz() {
@@ -1562,12 +1353,12 @@
             answers = {};
             userProfile = {};
             
+            // Show quiz title and subtitle again for retake
+            document.querySelector('.quiz-title').style.display = 'block';
+            document.querySelector('.quiz-subtitle').style.display = 'block';
+            
             document.querySelectorAll('.option.selected').forEach(option => {
                 option.classList.remove('selected');
-            });
-            
-            document.querySelectorAll('.education-tip, .social-proof').forEach(element => {
-                element.remove();
             });
             
             document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
