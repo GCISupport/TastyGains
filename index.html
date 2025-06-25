@@ -12,712 +12,1540 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            overflow-x: hidden;
-            background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 50%, #F59E0B 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-        }
-
-        .quiz-container {
-            min-height: 100vh;
-            padding: 20px;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             position: relative;
-            text-align: center;
-            width: 100%;
+            overflow-x: hidden;
+            padding: 20px;
         }
 
-        /* Background gradients */
-        .bg-clarity { background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 50%, #F59E0B 100%); }
-        .bg-endurance { background: linear-gradient(135deg, #7C3AED 0%, #F59E0B 50%, #EF4444 100%); }
-        .bg-goals { background: linear-gradient(135deg, #7C3AED 0%, #F59E0B 50%, #06B6D4 100%); }
-        .bg-experience { background: linear-gradient(135deg, #EC4899 0%, #F59E0B 100%); }
-        .bg-results { background: linear-gradient(135deg, #06B6D4 0%, #8B5CF6 50%, #F59E0B 100%); }
-
-        /* Paint splash effects */
-        .paint-splash {
-            position: absolute;
-            opacity: 0.3;
+        .bg-splash {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.08;
+            animation: float 8s ease-in-out infinite;
             pointer-events: none;
+            z-index: 1;
         }
 
         .splash-1 {
-            top: 10%;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, #ff6b6b, #ff8e8e);
+            top: 5%;
             left: 5%;
-            width: 200px;
-            height: 150px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50% 30% 60% 40%;
-            transform: rotate(-15deg);
+            animation-delay: 0s;
         }
 
         .splash-2 {
-            bottom: 15%;
-            right: 8%;
             width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, #4ecdc4, #7ed5d1);
+            top: 65%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        .splash-3 {
+            width: 120px;
             height: 120px;
-            background: rgba(255,255,255,0.15);
-            border-radius: 40% 60% 30% 50%;
-            transform: rotate(25deg);
+            background: radial-gradient(circle, #45b7d1, #6bc5e0);
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 6s;
         }
 
-        /* HEADLINE */
-        .headline {
-            margin-top: 60px;
-            margin-bottom: 40px;
-            text-align: center;
+        .splash-4 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #f093fb, #f5a7ff);
+            top: 30%;
+            right: 25%;
+            animation-delay: 1.5s;
         }
 
-        .mode-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: white;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            letter-spacing: -1px;
-            line-height: 0.9;
-            text-align: center;
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) translateX(0px) rotate(0deg) scale(1);
+            }
+            25% { 
+                transform: translateY(-15px) translateX(10px) rotate(90deg) scale(1.05);
+            }
+            50% { 
+                transform: translateY(5px) translateX(-8px) rotate(180deg) scale(0.95);
+            }
+            75% { 
+                transform: translateY(-8px) translateX(12px) rotate(270deg) scale(1.02);
+            }
         }
 
-        /* PROGRESS BAR */
-        .progress-bar {
-            margin-bottom: 40px;
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 400px;
+            max-width: 650px;
+            position: relative;
+            z-index: 10;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            text-align: center;
+        }
+
+        .quiz-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .quiz-subtitle {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            font-weight: 400;
             text-align: center;
         }
 
         .progress-container {
-            width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
+            margin: 35px 0;
+            background: #f0f2f5;
+            border-radius: 12px;
+            height: 12px;
             overflow: hidden;
             position: relative;
         }
 
-        .progress-fill {
+        .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #F59E0B, #EC4899);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-            width: 25%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            border-radius: 12px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         .progress-text {
-            color: white;
-            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 12px;
+            font-size: 14px;
+            color: #666;
             font-weight: 600;
-            text-align: center;
-            margin-top: 10px;
-            opacity: 0.8;
         }
 
-        /* QUESTION TEXT */
-        .question-section {
-            margin-bottom: 40px;
-            text-align: center;
-            max-width: 800px;
-            width: 100%;
-        }
-
-        .question-text {
-            font-size: 1.8rem;
-            color: white;
-            font-weight: 400;
-            line-height: 1.3;
-            margin-bottom: 20px;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.9);
-            font-weight: 300;
-        }
-
-        /* ANSWER BUTTONS */
-        .answers-section {
-            margin-bottom: 60px;
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-        }
-
-        .answers {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            width: 100%;
-        }
-
-        .answer-btn {
-            padding: 1.5rem 2rem;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .answer-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-
-        /* Button colors */
-        .purple { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
-        .pink { background: linear-gradient(135deg, #EC4899, #BE185D); }
-        .orange { background: linear-gradient(135deg, #F59E0B, #D97706); }
-        .yellow { background: linear-gradient(135deg, #EAB308, #CA8A04); }
-        .blue { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
-
-        /* BACK BUTTON */
-        .back-button {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .back-button:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-3px);
-        }
-
-        /* SHOW/HIDE QUESTIONS - CRITICAL SECTION */
         .question {
             display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
         }
 
         .question.active {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Results page styling */
-        .results-section {
-            text-align: center;
-            max-width: 700px;
+        .question h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .question-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option {
+            padding: 18px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            border: 2px solid rgba(255,255,255,0.2);
-            margin-bottom: 40px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.15);
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.3);
+        }
+
+        .option.selected::before {
+            display: none;
+        }
+
+        .option-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .option-desc {
+            font-size: 13px;
+            opacity: 0.8;
+            line-height: 1.3;
+        }
+
+        .education-tip {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 16px;
+            border-radius: 12px;
+            margin: 8px 0 0 0;
+            border-left: 4px solid #e17055;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .education-tip h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #2d3436;
+        }
+
+        .education-tip p {
+            font-size: 13px;
+            color: #2d3436;
+            line-height: 1.4;
+        }
+
+        .social-proof {
+            background: linear-gradient(135deg, #a8e6cf, #81c784);
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin: 8px 0 0 0;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+        }
+
+        .social-proof p {
+            font-size: 13px;
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .btn-back {
+            background: #f8f9fa;
+            color: #666;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-back:hover {
+            background: #e9ecef;
+            color: #333;
+            transform: translateY(-2px);
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+        }
+
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-next:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .results {
+            display: none;
+            text-align: center;
+        }
+
+        .results.active {
+            display: block;
+            animation: slideUp 0.8s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-header {
+            margin-bottom: 30px;
         }
 
         .results-title {
-            font-size: 3rem;
-            color: white;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            line-height: 1.1;
-        }
-
-        .stack-name {
-            font-size: 2.2rem;
-            color: white;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #F59E0B, #EC4899);
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stack-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
         }
 
         .stack-description {
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 2rem;
+            font-size: 16px;
+            color: #666;
             line-height: 1.5;
+            margin-bottom: 25px;
         }
 
-        .product-features {
-            margin: 2rem 0;
+        .features-list {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .features-list h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 18px;
             text-align: center;
         }
 
         .feature-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            color: white;
-            font-size: 1.1rem;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
         }
 
-        .feature-item::before {
-            content: "✓";
-            color: #F59E0B;
-            font-weight: bold;
-            margin-right: 0.8rem;
-            font-size: 1.2rem;
+        .feature-item:last-child {
+            border-bottom: none;
         }
 
-        .offer-section {
-            background: linear-gradient(135deg, #F59E0B, #EC4899);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            color: white;
-        }
-
-        .offer-title {
-            font-size: 2rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-
-        .price-info {
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .savings {
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-
-        .cta-button {
-            background: white;
-            color: #7C3AED;
-            border: none;
-            padding: 1.5rem 3rem;
-            font-size: 1.4rem;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            margin: 0.5rem;
-        }
-
-        .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
-
-        .cta-button.secondary {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 2px solid white;
-        }
-
-        .trust-badges {
-            margin-top: 2rem;
+        .feature-item .icon {
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin-right: 14px;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 2rem;
-            color: rgba(255,255,255,0.8);
-            font-size: 0.9rem;
-            flex-wrap: wrap;
-            text-align: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
         }
 
-        /* Mobile responsiveness */
+        .pricing-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 28px;
+            border-radius: 18px;
+            margin: 25px 0;
+        }
+
+        .offer-badge {
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 18px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .price-text {
+            font-size: 26px;
+            font-weight: 700;
+            margin: 12px 0;
+        }
+
+        .savings-text {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 18px;
+        }
+
+        .urgency-text {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-top: 18px;
+        }
+
+        .action-buttons {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 20px 32px;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ee5a52, #dc4c47);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            padding: 16px 32px;
+            border: 2px solid #667eea;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
-            .mode-title { font-size: 2.5rem; }
-            .question-text { font-size: 1.4rem; }
-            .answer-btn { font-size: 1.1rem; padding: 1.2rem 1.5rem; }
-            .progress-container { height: 6px; }
-            .progress-text { font-size: 0.8rem; }
-            .results-section { padding: 2rem; }
-            .results-title { font-size: 2.5rem; }
-            .trust-badges { flex-direction: column; gap: 1rem; text-align: center; }
-        }
+            body {
+                padding: 15px;
+            }
+            
+            .quiz-container {
+                padding: 25px 20px;
+                margin: 0;
+                max-width: 100%;
+            }
 
-        @media (max-width: 480px) {
-            .mode-title { font-size: 2rem; }
-            .question-text { font-size: 1.2rem; }
-            .answer-btn { font-size: 1rem; }
-            .progress-container { height: 5px; }
-            .progress-text { font-size: 0.7rem; }
-            .results-section { padding: 1.5rem; }
-            .results-title { font-size: 2rem; }
+            .logo {
+                font-size: 28px;
+            }
+
+            .quiz-title {
+                font-size: 22px;
+            }
+
+            .quiz-subtitle {
+                font-size: 15px;
+            }
+
+            .question h3 {
+                font-size: 18px;
+            }
+
+            .results-title {
+                font-size: 24px;
+            }
+
+            .btn-primary {
+                padding: 18px 24px;
+                font-size: 16px;
+            }
+
+            .option {
+                padding: 16px 18px;
+            }
+
+            .nav-btn {
+                padding: 12px 20px;
+                font-size: 13px;
+            }
+
+            .bg-splash {
+                opacity: 0.05;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="bg-splash splash-1"></div>
+    <div class="bg-splash splash-2"></div>
+    <div class="bg-splash splash-3"></div>
+    <div class="bg-splash splash-4"></div>
 
-    <!-- Question 1: Mental Support -->
-    <div class="quiz-container bg-clarity question active" id="q1">
-        <div class="paint-splash splash-1"></div>
-        <div class="paint-splash splash-2"></div>
-        
-        <div class="headline">
-            <h1 class="mode-title">CLARITY MODE:<br>ACTIVATED</h1>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <div class="logo">TASTY GAINS</div>
+            <h1 class="quiz-title">Find Your Perfect Supplement Stack</h1>
+            <p class="quiz-subtitle">Answer 12 quick questions to get your personalized recommendation</p>
         </div>
-        
-        <div class="progress-bar">
-            <div class="progress-container">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="progress-text" id="progressText">Question 1 of 4</div>
-        </div>
-        
-        <div class="question-section">
-            <p class="question-text">When do you feel like you need mental support the most?</p>
-            <p class="subtitle">(Choose the time that challenges your focus most – this helps us guide your stack)</p>
-        </div>
-        
-        <div class="answers-section">
-            <div class="answers">
-                <button class="answer-btn purple" onclick="nextQuestion('morning')">Morning focus boost</button>
-                <button class="answer-btn pink" onclick="nextQuestion('afternoon')">Afternoon slump recovery</button>
-                <button class="answer-btn orange" onclick="nextQuestion('evening')">Evening unwind & clarity</button>
-                <button class="answer-btn yellow" onclick="nextQuestion('allday')">All-day support</button>
-            </div>
-        </div>
-        
-        <button class="back-button" onclick="previousQuestion()" style="visibility: hidden;">← BACK</button>
-    </div>
 
-    <!-- Question 2: Workout Frequency -->
-    <div class="quiz-container bg-endurance question" id="q2">
-        <div class="paint-splash splash-1"></div>
-        <div class="paint-splash splash-2"></div>
-        
-        <div class="headline">
-            <h1 class="mode-title">ENDURANCE MODE:<br>ACTIVATED</h1>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
         </div>
-        
-        <div class="progress-bar">
-            <div class="progress-container">
-                <div class="progress-fill" style="width: 50%;"></div>
-            </div>
-            <div class="progress-text">Question 2 of 4</div>
-        </div>
-        
-        <div class="question-section">
-            <p class="question-text">How often do you work out per week?</p>
-            <p class="subtitle">(This helps us determine your optimal stack size)</p>
-        </div>
-        
-        <div class="answers-section">
-            <div class="answers">
-                <button class="answer-btn purple" onclick="nextQuestion('0-2days')">0-2 DAYS</button>
-                <button class="answer-btn orange" onclick="nextQuestion('3-4days')">3-4 DAYS</button>
-                <button class="answer-btn pink" onclick="nextQuestion('5+days')">5+ DAYS</button>
-            </div>
-        </div>
-        
-        <button class="back-button" onclick="previousQuestion()">← BACK</button>
-    </div>
+        <div class="progress-text" id="progressText">Getting to know your goals...</div>
 
-    <!-- Question 3: Primary Goal -->
-    <div class="quiz-container bg-goals question" id="q3">
-        <div class="paint-splash splash-1"></div>
-        <div class="paint-splash splash-2"></div>
-        
-        <div class="headline">
-            <h1 class="mode-title">POWER MODE:<br>ACTIVATED</h1>
-        </div>
-        
-        <div class="progress-bar">
-            <div class="progress-container">
-                <div class="progress-fill" style="width: 75%;"></div>
-            </div>
-            <div class="progress-text">Question 3 of 4</div>
-        </div>
-        
-        <div class="question-section">
-            <p class="question-text">What's your primary fitness goal?</p>
-            <p class="subtitle">(Help us match you with the perfect supplement combo)</p>
-        </div>
-        
-        <div class="answers-section">
-            <div class="answers">
-                <button class="answer-btn purple" onclick="nextQuestion('muscle')">Build Muscle & Strength</button>
-                <button class="answer-btn orange" onclick="nextQuestion('energy')">Boost Energy & Endurance</button>
-                <button class="answer-btn pink" onclick="nextQuestion('focus')">Enhance Focus & Performance</button>
-                <button class="answer-btn blue" onclick="nextQuestion('overall')">Overall Health & Wellness</button>
+        <!-- Question 1 -->
+        <div class="question active" data-question="1">
+            <h3>What's your experience with supplements?</h3>
+            <p class="question-subtitle">This helps us customize the recommendations and education level</p>
+            <div class="options">
+                <div class="option" data-value="new">
+                    <div class="option-title">🌱 New to supplements</div>
+                    <div class="option-desc">Just starting my fitness journey</div>
+                </div>
+                <div class="option" data-value="some">
+                    <div class="option-title">💪 Some experience</div>
+                    <div class="option-desc">Tried a few things, want to optimize</div>
+                </div>
+                <div class="option" data-value="experienced">
+                    <div class="option-title">🚀 Experienced user</div>
+                    <div class="option-desc">Know my way around supplements</div>
+                </div>
             </div>
         </div>
-        
-        <button class="back-button" onclick="previousQuestion()">← BACK</button>
-    </div>
 
-    <!-- Question 4: Experience Level -->
-    <div class="quiz-container bg-experience question" id="q4">
-        <div class="paint-splash splash-1"></div>
-        <div class="paint-splash splash-2"></div>
-        
-        <div class="headline">
-            <h1 class="mode-title">FINAL STEP:<br>ALMOST READY!</h1>
-        </div>
-        
-        <div class="progress-bar">
-            <div class="progress-container">
-                <div class="progress-fill" style="width: 100%;"></div>
+        <!-- Question 2 -->
+        <div class="question" data-question="2">
+            <h3>What's your primary fitness goal?</h3>
+            <p class="question-subtitle">We'll optimize your stack around this main objective</p>
+            <div class="options">
+                <div class="option" data-value="muscle">
+                    <div class="option-title">💪 Build muscle mass</div>
+                    <div class="option-desc">Gain size and strength</div>
+                </div>
+                <div class="option" data-value="strength">
+                    <div class="option-title">🏋️ Increase strength & power</div>
+                    <div class="option-desc">Lift heavier and perform better</div>
+                </div>
+                <div class="option" data-value="endurance">
+                    <div class="option-title">🏃 Improve endurance</div>
+                    <div class="option-desc">Go longer and recover faster</div>
+                </div>
+                <div class="option" data-value="focus">
+                    <div class="option-title">🧠 Enhance focus & productivity</div>
+                    <div class="option-desc">Mental clarity and motivation</div>
+                </div>
+                <div class="option" data-value="general">
+                    <div class="option-title">🌟 General health & wellness</div>
+                    <div class="option-desc">Overall fitness and wellbeing</div>
+                </div>
             </div>
-            <div class="progress-text">Question 4 of 4</div>
         </div>
-        
-        <div class="question-section">
-            <p class="question-text">How experienced are you with supplements?</p>
-            <p class="subtitle">(This helps us recommend the right approach for you)</p>
-        </div>
-        
-        <div class="answers-section">
-            <div class="answers">
-                <button class="answer-btn purple" onclick="nextQuestion('beginner')">Just getting started</button>
-                <button class="answer-btn orange" onclick="nextQuestion('intermediate')">Some experience</button>
-                <button class="answer-btn pink" onclick="nextQuestion('advanced')">Very experienced</button>
-            </div>
-        </div>
-        
-        <button class="back-button" onclick="previousQuestion()">← BACK</button>
-    </div>
 
-    <!-- Results Page -->
-    <div class="quiz-container bg-results question" id="results">
-        <div class="paint-splash splash-1"></div>
-        <div class="paint-splash splash-2"></div>
-        
-        <div class="progress-bar">
-            <div class="progress-container">
-                <div class="progress-fill" style="width: 100%;"></div>
+        <!-- Question 3 -->
+        <div class="question" data-question="3">
+            <h3>What's your biggest workout challenge?</h3>
+            <p class="question-subtitle">Let's target the area where you need the most support</p>
+            <div class="options">
+                <div class="option" data-value="energy">
+                    <div class="option-title">⚡ Low energy during workouts</div>
+                    <div class="option-desc">Feel tired or sluggish</div>
+                </div>
+                <div class="option" data-value="focus_challenge">
+                    <div class="option-title">🎯 Poor focus/motivation</div>
+                    <div class="option-desc">Struggle to stay locked in</div>
+                </div>
+                <div class="option" data-value="recovery">
+                    <div class="option-title">😴 Slow recovery between sessions</div>
+                    <div class="option-desc">Sore for days after training</div>
+                </div>
+                <div class="option" data-value="plateau">
+                    <div class="option-title">📈 Inconsistent results/plateaus</div>
+                    <div class="option-desc">Not seeing the progress I want</div>
+                </div>
+                <div class="option" data-value="time">
+                    <div class="option-title">⏰ Time constraints</div>
+                    <div class="option-desc">Busy schedule, need efficiency</div>
+                </div>
             </div>
-            <div class="progress-text">Complete!</div>
         </div>
-        
-        <div class="results-section">
-            <h1 class="results-title" id="resultsTitle">YOUR STRENGTH STACK IS READY!</h1>
-            
-            <div class="stack-name" id="stackName">Complete Performance Stack</div>
-            <div class="stack-description" id="stackDescription">
-                Based on your answers, we've matched you with the perfect formula to power strength, recovery, and performance — no fluff, just results.
+
+        <!-- Question 4 -->
+        <div class="question" data-question="4">
+            <h3>How often do you work out?</h3>
+            <p class="question-subtitle">This determines optimal dosing and product combinations</p>
+            <div class="options">
+                <div class="option" data-value="1-2days">
+                    <div class="option-title">🌱 1-2 days per week</div>
+                    <div class="option-desc">Getting started or maintaining</div>
+                </div>
+                <div class="option" data-value="3-4days">
+                    <div class="option-title">💪 3-4 days per week</div>
+                    <div class="option-desc">Consistent routine established</div>
+                </div>
+                <div class="option" data-value="5-6days">
+                    <div class="option-title">🔥 5-6 days per week</div>
+                    <div class="option-desc">Serious about my training</div>
+                </div>
+                <div class="option" data-value="daily">
+                    <div class="option-title">🚀 Daily training/athlete level</div>
+                    <div class="option-desc">Elite performance focused</div>
+                </div>
             </div>
-            
-            <div class="product-features" id="productFeatures">
-                <div class="feature-item">Clean, fast-absorbing creatine gummies</div>
-                <div class="feature-item">Advanced nootropics for mental clarity</div>
-                <div class="feature-item">No scoop. No mixing. Just gains.</div>
-                <div class="feature-item">Supports joint health & muscle recovery</div>
-            </div>
-            
-            <div class="offer-section" id="offerSection">
-                <div class="offer-title" id="offerTitle">SUBSCRIBE & SAVE 20%</div>
-                <div class="savings" id="savingsText">YOU SAVE $24.00</div>
-                <div class="price-info" id="priceInfo">3-Month Supply + Nootropics - $89.99/month</div>
-                
-                <button class="cta-button" onclick="claimOffer()">CLAIM MY STACK</button>
-                <button class="cta-button secondary" onclick="viewOneTime()">ONE-TIME PURCHASE</button>
-            </div>
-            
-            <div class="trust-badges">
-                <span>🌱 Vegan & Lab Tested</span>
-                <span>🚚 Fast Shipping</span>
-                <span>💯 Money-Back Guarantee</span>
-            </div>
-            
-            <button class="cta-button secondary" onclick="retakeQuiz()" style="margin-top: 2rem;">RETAKE QUIZ</button>
         </div>
-        
-        <button class="back-button" onclick="previousQuestion()">← BACK</button>
+
+        <!-- Question 5 -->
+        <div class="question" data-question="5">
+            <h3>When do you usually work out?</h3>
+            <p class="question-subtitle">Timing affects which products work best for your schedule</p>
+            <div class="options">
+                <div class="option" data-value="morning">
+                    <div class="option-title">🌅 Early morning (5-8am)</div>
+                    <div class="option-desc">Get it done before the day starts</div>
+                </div>
+                <div class="option" data-value="midday">
+                    <div class="option-title">☀️ Mid-day (10am-2pm)</div>
+                    <div class="option-desc">Lunch break or flexible schedule</div>
+                </div>
+                <div class="option" data-value="evening">
+                    <div class="option-title">🌆 Evening (4-8pm)</div>
+                    <div class="option-desc">After work wind down</div>
+                </div>
+                <div class="option" data-value="varies">
+                    <div class="option-title">🔄 Varies/inconsistent</div>
+                    <div class="option-desc">Depends on my schedule</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question" data-question="6">
+            <h3>What's your flavor preference?</h3>
+            <p class="question-subtitle">We want you to actually enjoy taking your supplements!</p>
+            <div class="options">
+                <div class="option" data-value="fruity">
+                    <div class="option-title">🍓 Love fruity flavors</div>
+                    <div class="option-desc">Blue Raspberry, Strawberry</div>
+                </div>
+                <div class="option" data-value="classic">
+                    <div class="option-title">🍃 Prefer classic tastes</div>
+                    <div class="option-desc">Simple, clean flavors</div>
+                </div>
+                <div class="option" data-value="variety">
+                    <div class="option-title">🌈 Want variety/rotation</div>
+                    <div class="option-desc">Mix it up to stay interested</div>
+                </div>
+                <div class="option" data-value="no_preference">
+                    <div class="option-title">🤷 No strong preference</div>
+                    <div class="option-desc">Effectiveness over taste</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question" data-question="7">
+            <h3>What matters most to you?</h3>
+            <p class="question-subtitle">This helps us prioritize the right aspects of your stack</p>
+            <div class="options">
+                <div class="option" data-value="simplicity">
+                    <div class="option-title">✨ All-in-one simplicity</div>
+                    <div class="option-desc">Easy routine, minimal thinking</div>
+                </div>
+                <div class="option" data-value="effectiveness">
+                    <div class="option-title">🎯 Maximum effectiveness</div>
+                    <div class="option-desc">Best results possible</div>
+                </div>
+                <div class="option" data-value="value">
+                    <div class="option-title">💰 Best value for money</div>
+                    <div class="option-desc">Smart spending, good results</div>
+                </div>
+                <div class="option" data-value="premium">
+                    <div class="option-title">👑 Premium quality only</div>
+                    <div class="option-desc">Top-tier ingredients and service</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question" data-question="8">
+            <h3>When do you want to see results?</h3>
+            <p class="question-subtitle">Realistic timelines help us set proper expectations</p>
+            <div class="options">
+                <div class="option" data-value="fast">
+                    <div class="option-title">⚡ 2-4 weeks</div>
+                    <div class="option-desc">Quick wins and motivation</div>
+                </div>
+                <div class="option" data-value="steady">
+                    <div class="option-title">📈 2-3 months</div>
+                    <div class="option-desc">Steady, sustainable progress</div>
+                </div>
+                <div class="option" data-value="longterm">
+                    <div class="option-title">🏆 6+ months transformation</div>
+                    <div class="option-desc">Patient, long-term approach</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question" data-question="9">
+            <h3>What supplements do you currently use?</h3>
+            <p class="question-subtitle">We'll make sure there are no conflicts or redundancies</p>
+            <div class="options">
+                <div class="option" data-value="none">
+                    <div class="option-title">🚫 Not using anything currently</div>
+                    <div class="option-desc">Starting fresh</div>
+                </div>
+                <div class="option" data-value="basic">
+                    <div class="option-title">🥛 Basic protein powder only</div>
+                    <div class="option-desc">Just covering the basics</div>
+                </div>
+                <div class="option" data-value="multiple">
+                    <div class="option-title">💊 Multiple supplements already</div>
+                    <div class="option-desc">Have a current routine</div>
+                </div>
+                <div class="option" data-value="disappointed">
+                    <div class="option-title">😞 Tried supplements but disappointed</div>
+                    <div class="option-desc">Looking for something that works</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question" data-question="10">
+            <h3>What's your monthly supplement budget?</h3>
+            <p class="question-subtitle">We'll recommend options that fit your investment level</p>
+            <div class="options">
+                <div class="option" data-value="budget">
+                    <div class="option-title">💵 Under $75/month</div>
+                    <div class="option-desc">Looking for essential value</div>
+                </div>
+                <div class="option" data-value="moderate">
+                    <div class="option-title">💰 $75-150/month</div>
+                    <div class="option-desc">Willing to invest for results</div>
+                </div>
+                <div class="option" data-value="premium">
+                    <div class="option-title">💎 $150+ for the right solution</div>
+                    <div class="option-desc">Quality is worth the investment</div>
+                </div>
+                <div class="option" data-value="no_limit">
+                    <div class="option-title">🚀 Price isn't the main factor</div>
+                    <div class="option-desc">Results matter most</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 11 -->
+        <div class="question" data-question="11">
+            <h3>How committed are you to this journey?</h3>
+            <p class="question-subtitle">Longer commitments often lead to better results and pricing</p>
+            <div class="options">
+                <div class="option" data-value="trial">
+                    <div class="option-title">🤔 Want to try first (1 month)</div>
+                    <div class="option-desc">Testing the waters</div>
+                </div>
+                <div class="option" data-value="committed">
+                    <div class="option-title">💪 Ready to commit (3-6 months)</div>
+                    <div class="option-desc">Serious about making changes</div>
+                </div>
+                <div class="option" data-value="transformation">
+                    <div class="option-title">🔥 All-in for transformation (6+ months)</div>
+                    <div class="option-desc">This is my year</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 12 -->
+        <div class="question" data-question="12">
+            <h3>What bonus support interests you most?</h3>
+            <p class="question-subtitle">We offer additional resources to maximize your success</p>
+            <div class="options">
+                <div class="option" data-value="meal_planning">
+                    <div class="option-title">🍽️ Meal planning guidance</div>
+                    <div class="option-desc">Nutrition optimization</div>
+                </div>
+                <div class="option" data-value="workout_tips">
+                    <div class="option-title">🏋️ Workout optimization tips</div>
+                    <div class="option-desc">Training advice and programs</div>
+                </div>
+                <div class="option" data-value="coaching">
+                    <div class="option-title">👨‍🏫 1-on-1 coaching access</div>
+                    <div class="option-desc">Personal guidance and accountability</div>
+                </div>
+                <div class="option" data-value="community">
+                    <div class="option-title">👥 Exclusive community access</div>
+                    <div class="option-desc">Connect with like-minded people</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results" id="results">
+            <div class="results-header">
+                <h2 class="results-title" id="resultsTitle">YOUR PERFECT STACK IS READY!</h2>
+                <h3 class="stack-name" id="stackName">Elite Performance Stack</h3>
+                <p class="stack-description" id="stackDescription">Based on your answers, this stack is optimized for your goals and lifestyle.</p>
+            </div>
+
+            <div class="features-list">
+                <h4>Your Personalized Stack Includes:</h4>
+                <div id="featuresList">
+                    <div class="feature-item">
+                        <div class="icon">✓</div>
+                        <span>Creatine Gummies - Blue Raspberry (Monthly)</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">✓</div>
+                        <span>Pre-Workout Gummies - Blue Raspberry (Monthly)</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="icon">✓</div>
+                        <span>Work Vibes Nootropic Capsules (Monthly)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pricing-section">
+                <div class="offer-badge" id="offerBadge">SUBSCRIBE & SAVE $15</div>
+                <div class="price-text" id="priceText">Monthly Subscription - $75.00/month</div>
+                <div class="savings-text" id="savingsText">YOU SAVE $15.00 per month vs one-time pricing ($89.98)</div>
+                <div class="urgency-text" id="urgencyText">🔥 Limited: Only 47 VIP spots available this month</div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="claimOffer()">
+                    🚀 CLAIM MY STACK - START TRANSFORMING
+                </button>
+                <button class="btn-secondary" onclick="viewOneTime()">
+                    View One-Time Purchase Options
+                </button>
+                <button class="btn-secondary" onclick="retakeQuiz()" style="margin-top: 1rem;">
+                    🔄 RETAKE QUIZ
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-buttons" id="navButtons">
+            <button class="nav-btn btn-back" onclick="previousQuestion()" id="backBtn" style="display: none;">
+                ← Back
+            </button>
+            <button class="nav-btn btn-next" onclick="nextQuestion()" id="nextBtn" disabled>
+                Next →
+            </button>
+        </div>
     </div>
 
     <script>
         let currentQuestion = 1;
-        const totalQuestions = 4;
+        const totalQuestions = 12;
         let answers = {};
+        let userProfile = {};
 
-        function updateProgressBar(questionNumber) {
-            const progressFill = document.getElementById('progressFill');
-            const progressText = document.getElementById('progressText');
-            
-            if (questionNumber <= totalQuestions) {
-                const percentage = (questionNumber / totalQuestions) * 100;
-                progressFill.style.width = percentage + '%';
-                progressText.textContent = `Question ${questionNumber} of ${totalQuestions}`;
-            } else {
-                progressFill.style.width = '100%';
-                progressText.textContent = 'Complete!';
+        function initQuiz() {
+            updateProgress();
+            updateNavigationState();
+        }
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.option')) {
+                const option = e.target.closest('.option');
+                const question = option.closest('.question');
+                const questionNum = parseInt(question.dataset.question);
+                const value = option.dataset.value;
+
+                question.querySelectorAll('.option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+
+                option.classList.add('selected');
+                answers['q' + questionNum] = value;
+                updateUserProfile(questionNum, value);
+                document.getElementById('nextBtn').disabled = false;
+                
+                addEducationalContent(questionNum, value);
+                addSocialProof(questionNum, value);
+            }
+        });
+
+        function updateUserProfile(questionNum, value) {
+            switch(questionNum) {
+                case 1:
+                    userProfile.experience = value;
+                    break;
+                case 2:
+                    userProfile.primaryGoal = value;
+                    break;
+                case 3:
+                    userProfile.challenge = value;
+                    break;
+                case 4:
+                    userProfile.workoutFreq = value;
+                    break;
+                case 5:
+                    userProfile.timing = value;
+                    break;
+                case 6:
+                    userProfile.flavor = value;
+                    break;
+                case 7:
+                    userProfile.priority = value;
+                    break;
+                case 8:
+                    userProfile.timeline = value;
+                    break;
+                case 9:
+                    userProfile.currentSupps = value;
+                    break;
+                case 10:
+                    userProfile.budget = value;
+                    break;
+                case 11:
+                    userProfile.commitment = value;
+                    break;
+                case 12:
+                    userProfile.bonus = value;
+                    break;
             }
         }
 
-        function nextQuestion(answer) {
-            answers[`q${currentQuestion}`] = answer;
-            
-            // Hide current question
-            document.getElementById(`q${currentQuestion}`).classList.remove('active');
-            
-            currentQuestion++;
-            
-            if (currentQuestion <= totalQuestions) {
-                // Show next question
-                document.getElementById(`q${currentQuestion}`).classList.add('active');
-                updateProgressBar(currentQuestion);
+        function addEducationalContent(questionNum, value) {
+            const question = document.querySelector('[data-question="' + questionNum + '"]');
+            question.querySelectorAll('.education-tip').forEach(tip => tip.remove());
+
+            let tipContent = null;
+
+            if (questionNum === 1) {
+                if (value === 'new') {
+                    tipContent = {
+                        title: "🌱 Perfect Starting Point",
+                        text: "New users see 40% faster results with our guided approach. We'll recommend the optimal starter stack and provide step-by-step guidance."
+                    };
+                } else if (value === 'experienced') {
+                    tipContent = {
+                        title: "🚀 Advanced Optimization",
+                        text: "Experienced users unlock our premium formulations and advanced protocols. Time to break through your next level."
+                    };
+                } else if (value === 'some') {
+                    tipContent = {
+                        title: "💪 Ready to Level Up",
+                        text: "With some experience, you're ready for our intermediate protocols. Users like you see 25% better results with optimized stacking."
+                    };
+                }
+            }
+
+            if (questionNum === 2) {
+                if (value === 'muscle') {
+                    tipContent = {
+                        title: "💪 Muscle Building Science",
+                        text: "Our creatine increases protein synthesis by 15-22%. Combined with pre-workout, users gain 3-5 lbs more muscle in 8 weeks."
+                    };
+                } else if (value === 'focus') {
+                    tipContent = {
+                        title: "🧠 Cognitive Enhancement",
+                        text: "Our nootropic blend increases focus by 67% within 30 minutes. Perfect for both mental and physical performance."
+                    };
+                } else if (value === 'strength') {
+                    tipContent = {
+                        title: "🏋️ Power Amplification",
+                        text: "Strength athletes report 15-25% max lift increases in 4 weeks. Our combination maximizes explosive power output."
+                    };
+                } else if (value === 'endurance') {
+                    tipContent = {
+                        title: "🏃 Endurance Revolution",
+                        text: "Marathon runners extend their sessions by 20-30 minutes. Our formula prevents fatigue cascade and maintains peak performance."
+                    };
+                } else if (value === 'general') {
+                    tipContent = {
+                        title: "🌟 Holistic Wellness",
+                        text: "Complete wellness users report improved energy, enhanced sleep quality, and elevated daily performance within 2 weeks."
+                    };
+                }
+            }
+
+            if (questionNum === 3) {
+                if (value === 'energy') {
+                    tipContent = {
+                        title: "⚡ Energy Revolution",
+                        text: "Low energy destroys motivation. Our sustained-release pre-workout provides 4-6 hours of clean energy without afternoon crashes."
+                    };
+                } else if (value === 'focus_challenge') {
+                    tipContent = {
+                        title: "🎯 Laser Focus Protocol",
+                        text: "Wandering minds waste workouts. Our nootropics create tunnel vision focus for maximum training intensity."
+                    };
+                } else if (value === 'recovery') {
+                    tipContent = {
+                        title: "😴 Recovery Acceleration",
+                        text: "Slow recovery limits progress. Our creatine reduces muscle soreness by 40% and speeds tissue repair."
+                    };
+                } else if (value === 'plateau') {
+                    tipContent = {
+                        title: "📈 Plateau Destroyer",
+                        text: "Plateaus signal adaptation limits. Our advanced stacks provide the stimulus needed for breakthrough performance."
+                    };
+                } else if (value === 'time') {
+                    tipContent = {
+                        title: "⏰ Efficiency Maximizer",
+                        text: "Busy schedules demand results. Our all-in-one approach delivers maximum gains in minimum time."
+                    };
+                }
+            }
+
+            if (questionNum === 4) {
+                if (value === '5-6days') {
+                    tipContent = {
+                        title: "🔥 Elite Training Support",
+                        text: "High-frequency training demands premium recovery. Elite athletes need pharmaceutical-grade nutrients for optimal adaptation."
+                    };
+                } else if (value === 'daily') {
+                    tipContent = {
+                        title: "🚀 Championship Level Protocol",
+                        text: "Daily training requires world-class recovery systems. Our elite formulations are designed for peak performance athletes who train every day."
+                    };
+                } else if (value === '1-2days') {
+                    tipContent = {
+                        title: "💎 Weekend Warrior Optimization",
+                        text: "Limited training windows require strategic supplementation. Our targeted formulas maximize every single session."
+                    };
+                } else if (value === '3-4days') {
+                    tipContent = {
+                        title: "🎯 Goldilocks Zone",
+                        text: "This frequency hits the sweet spot for muscle growth and recovery. Our standard protocols are calibrated for this routine."
+                    };
+                }
+            }
+
+            if (questionNum === 5) {
+                if (value === 'morning') {
+                    tipContent = {
+                        title: "🌅 Dawn Warrior Protocol",
+                        text: "Early birds need sustained energy architecture. Our formula builds momentum that carries through your entire day."
+                    };
+                } else if (value === 'evening') {
+                    tipContent = {
+                        title: "🌆 Night Training Science",
+                        text: "Evening sessions require sleep-friendly stimulation. Our caffeine-controlled blend energizes without disrupting rest."
+                    };
+                } else if (value === 'midday') {
+                    tipContent = {
+                        title: "☀️ Lunch Break Power",
+                        text: "Midday trainers need rapid activation. Our fast-absorbing formula kicks in within 15 minutes for instant readiness."
+                    };
+                } else if (value === 'varies') {
+                    tipContent = {
+                        title: "🔄 Adaptive Nutrition",
+                        text: "Variable schedules need flexible solutions. Our balanced formulation works optimally regardless of timing."
+                    };
+                }
+            }
+
+            if (questionNum === 6) {
+                if (value === 'fruity') {
+                    tipContent = {
+                        title: "🍓 Taste Innovation",
+                        text: "Our Blue Raspberry consistently wins blind taste tests. Premium flavoring makes daily supplementation enjoyable."
+                    };
+                } else if (value === 'variety') {
+                    tipContent = {
+                        title: "🌈 Rotation Strategy",
+                        text: "Flavor rotation prevents supplement fatigue. Our diverse profile library keeps daily nutrition exciting."
+                    };
+                } else if (value === 'classic') {
+                    tipContent = {
+                        title: "🍃 Pure Simplicity",
+                        text: "Clean flavor profiles indicate pure ingredients. No masking agents or artificial aftertastes - just effective nutrition."
+                    };
+                } else if (value === 'no_preference') {
+                    tipContent = {
+                        title: "🎯 Performance Priority",
+                        text: "Results-over-taste mindset indicates serious commitment. Performance-focused users achieve goals 20% faster."
+                    };
+                }
+            }
+
+            if (questionNum === 7) {
+                if (value === 'effectiveness') {
+                    tipContent = {
+                        title: "🎯 Results-First Philosophy",
+                        text: "Maximum effectiveness users access our most potent formulations. We'll recommend clinically-dosed combinations."
+                    };
+                } else if (value === 'premium') {
+                    tipContent = {
+                        title: "👑 VIP Excellence",
+                        text: "Premium tier unlocks our highest-grade ingredients, exclusive formulations, and priority customer success support."
+                    };
+                } else if (value === 'simplicity') {
+                    tipContent = {
+                        title: "✨ Streamlined Success",
+                        text: "All-in-one simplicity eliminates decision fatigue. Streamlined users maintain 80% better long-term adherence."
+                    };
+                } else if (value === 'value') {
+                    tipContent = {
+                        title: "💰 Smart Economics",
+                        text: "Value optimization means maximum results per dollar. We engineer cost-effective solutions without quality compromise."
+                    };
+                }
+            }
+
+            if (questionNum === 8) {
+                if (value === 'fast') {
+                    tipContent = {
+                        title: "⚡ Rapid Transformation",
+                        text: "Accelerated results require intensive protocols. Our high-dose approach delivers visible changes within 2-3 weeks."
+                    };
+                } else if (value === 'steady') {
+                    tipContent = {
+                        title: "📈 Sustainable Progression",
+                        text: "Steady builders create lasting transformations. 2-3 month timelines allow for habit formation and permanent change."
+                    };
+                } else if (value === 'longterm') {
+                    tipContent = {
+                        title: "🏆 Legacy Transformation",
+                        text: "Long-term vision creates extraordinary results. True body recomposition requires patience but delivers lifetime benefits."
+                    };
+                }
+            }
+
+            if (questionNum === 9) {
+                if (value === 'disappointed') {
+                    tipContent = {
+                        title: "🎯 Redemption Protocol",
+                        text: "Past disappointments end here. Our pharmaceutical-grade manufacturing and third-party testing guarantee real results."
+                    };
+                } else if (value === 'multiple') {
+                    tipContent = {
+                        title: "🔄 Stack Optimization",
+                        text: "Multi-supplement users benefit from synergy analysis. We'll identify interactions and optimize your complete regimen."
+                    };
+                } else if (value === 'none') {
+                    tipContent = {
+                        title: "🚀 Clean Slate Advantage",
+                        text: "Starting fresh eliminates bad habits and misinformation. You'll build the perfect foundation from day one."
+                    };
+                } else if (value === 'basic') {
+                    tipContent = {
+                        title: "📈 Foundation Expansion",
+                        text: "Protein powder is excellent groundwork. Adding targeted performance nutrients amplifies your existing routine exponentially."
+                    };
+                }
+            }
+
+            if (questionNum === 10) {
+                if (value === 'premium') {
+                    tipContent = {
+                        title: "💎 Investment Excellence",
+                        text: "Premium investment accesses our most advanced formulations, personalized protocols, and exclusive member benefits."
+                    };
+                } else if (value === 'no_limit') {
+                    tipContent = {
+                        title: "🚀 Ultimate Performance Investment", 
+                        text: "When results matter most, our platinum-tier formulations unlock maximum potential. No compromises, just pure excellence."
+                    };
+                } else if (value === 'budget') {
+                    tipContent = {
+                        title: "💰 Value Engineering",
+                        text: "Budget consciousness doesn't sacrifice quality. Our foundation stacks deliver exceptional results through smart formulation."
+                    };
+                } else if (value === 'moderate') {
+                    tipContent = {
+                        title: "⚖️ Sweet Spot Investment",
+                        text: "This range unlocks our most popular combinations. Balanced investment delivers premium results without overspending."
+                    };
+                }
+            }
+
+            if (questionNum === 11) {
+                if (value === 'transformation') {
+                    tipContent = {
+                        title: "🔥 Complete Metamorphosis",
+                        text: "Long-term commitment unlocks our most powerful transformation protocols. All-in users see 2-3x more dramatic results."
+                    };
+                } else if (value === 'committed') {
+                    tipContent = {
+                        title: "💪 Dedicated Success",
+                        text: "3-6 month commitment creates lasting change. This timeframe allows for complete habit integration and body adaptation."
+                    };
+                } else if (value === 'trial') {
+                    tipContent = {
+                        title: "🤔 Strategic Testing",
+                        text: "Smart testing minimizes risk. Most trial users upgrade within 2 weeks when they experience the effectiveness firsthand."
+                    };
+                }
+            }
+
+            if (questionNum === 12) {
+                if (value === 'coaching') {
+                    tipContent = {
+                        title: "👨‍🏫 Personal Mastery",
+                        text: "1-on-1 coaching accelerates results by 150%. Get personalized adjustments, accountability, and expert troubleshooting."
+                    };
+                } else if (value === 'community') {
+                    tipContent = {
+                        title: "👥 Tribe Power",
+                        text: "Community connection sustains motivation. Surround yourself with like-minded individuals pursuing similar transformations."
+                    };
+                } else if (value === 'meal_planning') {
+                    tipContent = {
+                        title: "🍽️ Nutritional Synergy",
+                        text: "Meal planning amplifies supplement effectiveness by 40%. Nutrition and supplementation create powerful synergistic effects."
+                    };
+                } else if (value === 'workout_tips') {
+                    tipContent = {
+                        title: "🏋️ Training Mastery",
+                        text: "Workout optimization users see 25% faster progress. Proper training methodology maximizes supplement investment."
+                    };
+                }
+            }
+
+            if (tipContent) {
+                const selectedOption = question.querySelector('.option.selected');
+                if (selectedOption) {
+                    const tip = document.createElement('div');
+                    tip.className = 'education-tip';
+                    tip.innerHTML = '<h4>' + tipContent.title + '</h4><p>' + tipContent.text + '</p>';
+                    selectedOption.insertAdjacentElement('afterend', tip);
+                }
+            }
+        }
+
+        function addSocialProof(questionNum, value) {
+            const question = document.querySelector('[data-question="' + questionNum + '"]');
+            question.querySelectorAll('.social-proof').forEach(proof => proof.remove());
+
+            let proofText = '';
+
+            if (questionNum === 1) {
+                if (value === 'experienced') {
+                    proofText = "Advanced users report 40% faster optimization with our premium stacks";
+                } else if (value === 'new') {
+                    proofText = "95% of new users stick with their supplement routine using our guidance";
+                } else if (value === 'some') {
+                    proofText = "Intermediate users break through plateaus 60% faster with proper guidance";
+                }
+            }
+
+            if (questionNum === 2) {
+                if (value === 'muscle') {
+                    proofText = "87% of muscle builders see visible gains within 4-6 weeks";
+                } else if (value === 'focus') {
+                    proofText = "94% report improved mental clarity within the first week";
+                } else if (value === 'strength') {
+                    proofText = "Strength-focused users increase max lifts by average 18% in 6 weeks";
+                } else if (value === 'endurance') {
+                    proofText = "Endurance athletes extend workout duration by 25-35% on average";
+                } else if (value === 'general') {
+                    proofText = "Wellness-focused users report improved energy in 92% of cases";
+                }
+            }
+
+            if (questionNum === 3) {
+                if (value === 'energy') {
+                    proofText = "92% eliminate afternoon energy crashes within one week";
+                } else if (value === 'plateau') {
+                    proofText = "89% break through plateaus within 3 weeks of optimization";
+                } else if (value === 'recovery') {
+                    proofText = "Recovery-focused users reduce muscle soreness by 45% on average";
+                } else if (value === 'focus_challenge') {
+                    proofText = "Focus-challenged users see 75% improvement in workout concentration";
+                } else if (value === 'time') {
+                    proofText = "Busy professionals save 30 minutes per workout with our efficient formulas";
+                }
+            }
+
+            if (questionNum === 4) {
+                if (value === '5-6days') {
+                    proofText = "High-frequency trainers choose our advanced stacks 4x more often";
+                } else if (value === 'daily') {
+                    proofText = "Elite daily trainers achieve 40% faster strength gains with our protocols";
+                } else if (value === '3-4days') {
+                    proofText = "Most popular training frequency - 73% of our users train 3-4x per week";
+                } else if (value === '1-2days') {
+                    proofText = "Weekend warriors see 50% better results with targeted supplementation";
+                }
+            }
+
+            if (questionNum === 5) {
+                if (value === 'morning') {
+                    proofText = "Early morning trainers have 85% better consistency rates";
+                } else if (value === 'evening') {
+                    proofText = "Evening warriors maintain energy 90% better with proper supplementation";
+                } else if (value === 'midday') {
+                    proofText = "Lunch break trainers love our fast-acting 15-minute activation";
+                } else if (value === 'varies') {
+                    proofText = "Flexible schedulers maintain routine consistency 80% better";
+                }
+            }
+
+            if (questionNum === 6) {
+                if (value === 'fruity') {
+                    proofText = "Fruity flavor enthusiasts have 95% daily adherence rates";
+                } else if (value === 'variety') {
+                    proofText = "Variety seekers stay motivated 3x longer than single-flavor users";
+                } else if (value === 'classic') {
+                    proofText = "Clean flavor users report 90% satisfaction with taste profiles";
+                } else if (value === 'no_preference') {
+                    proofText = "Results-focused users achieve goals 25% faster than average";
+                }
+            }
+
+            if (questionNum === 7) {
+                if (value === 'premium') {
+                    proofText = "Premium tier users report 60% higher satisfaction with their results";
+                } else if (value === 'effectiveness') {
+                    proofText = "Maximum effectiveness users see improvements 35% faster";
+                } else if (value === 'simplicity') {
+                    proofText = "All-in-one users maintain 80% better long-term consistency";
+                } else if (value === 'value') {
+                    proofText = "Value-conscious users still achieve 90% of premium results";
+                }
+            }
+
+            if (questionNum === 8) {
+                if (value === 'fast') {
+                    proofText = "Quick-results users notice changes 2x faster with intensive protocols";
+                } else if (value === 'steady') {
+                    proofText = "Steady-progress users have 90% long-term transformation success";
+                } else if (value === 'longterm') {
+                    proofText = "Transformation-minded users achieve 300% more dramatic results";
+                }
+            }
+
+            if (questionNum === 9) {
+                if (value === 'disappointed') {
+                    proofText = "Previously disappointed users see 95% satisfaction with our approach";
+                } else if (value === 'multiple') {
+                    proofText = "Multi-supplement users optimize their complete regimen 70% better";
+                } else if (value === 'none') {
+                    proofText = "Fresh starters build perfect habits 85% more successfully";
+                } else if (value === 'basic') {
+                    proofText = "Protein users amplify results by 150% when adding targeted nutrients";
+                }
+            }
+
+            if (questionNum === 10) {
+                if (value === 'premium') {
+                    proofText = "Premium tier users report 60% higher satisfaction with their results";
+                } else if (value === 'no_limit') {
+                    proofText = "Results-first investors achieve goals 75% faster than budget-focused users";
+                } else if (value === 'budget') {
+                    proofText = "Budget-conscious users still see excellent results - 91% satisfaction";
+                } else if (value === 'moderate') {
+                    proofText = "This investment range represents 68% of our most successful users";
+                }
+            }
+
+            if (questionNum === 11) {
+                if (value === 'transformation') {
+                    proofText = "Long-term commitment users report 3x more dramatic body changes";
+                } else if (value === 'committed') {
+                    proofText = "3-6 month dedicated users have 85% higher goal achievement rates";
+                } else if (value === 'trial') {
+                    proofText = "Smart trial users upgrade to longer plans 75% of the time";
+                }
+            }
+
+            if (questionNum === 12) {
+                if (value === 'coaching') {
+                    proofText = "Personal coaching members exceed their goals by 150% on average";
+                } else if (value === 'community') {
+                    proofText = "Community members maintain motivation 3x longer than solo users";
+                } else if (value === 'meal_planning') {
+                    proofText = "Meal planning integration users accelerate results by 40%";
+                } else if (value === 'workout_tips') {
+                    proofText = "Training optimization guidance users see 25% faster progress";
+                }
+            }
+
+            if (proofText) {
+                const selectedOption = question.querySelector('.option.selected');
+                if (selectedOption) {
+                    const proof = document.createElement('div');
+                    proof.className = 'social-proof';
+                    proof.innerHTML = '<p>✨ ' + proofText + '</p>';
+                    
+                    const existingTip = selectedOption.nextElementSibling;
+                    if (existingTip && existingTip.classList.contains('education-tip')) {
+                        existingTip.insertAdjacentElement('afterend', proof);
+                    } else {
+                        selectedOption.insertAdjacentElement('afterend', proof);
+                    }
+                }
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                document.querySelector('[data-question="' + currentQuestion + '"]').classList.remove('active');
+                currentQuestion++;
+                
+                if (currentQuestion <= totalQuestions) {
+                    const nextQ = document.querySelector('[data-question="' + currentQuestion + '"]');
+                    if (nextQ) {
+                        nextQ.classList.add('active');
+                        updateProgress();
+                        updateNavigationState();
+                    } else {
+                        showResults();
+                    }
+                } else {
+                    showResults();
+                }
             } else {
-                // Show results
                 showResults();
             }
         }
 
         function previousQuestion() {
             if (currentQuestion > 1) {
-                // Hide current question or results
-                if (currentQuestion <= totalQuestions) {
-                    document.getElementById(`q${currentQuestion}`).classList.remove('active');
-                } else {
-                    document.getElementById('results').classList.remove('active');
-                    currentQuestion = totalQuestions + 1;
-                }
-                
+                document.querySelector('[data-question="' + currentQuestion + '"]').classList.remove('active');
                 currentQuestion--;
-                updateProgressBar(currentQuestion);
-                
-                // Show previous question
-                document.getElementById(`q${currentQuestion}`).classList.add('active');
+                document.querySelector('[data-question="' + currentQuestion + '"]').classList.add('active');
+                updateProgress();
+                updateNavigationState();
             }
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestion / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            let progressMessage = '';
+            if (currentQuestion <= 4) {
+                progressMessage = "Getting to know your goals...";
+            } else if (currentQuestion <= 8) {
+                progressMessage = "Optimizing your recommendations...";
+            } else {
+                progressMessage = "Finalizing your perfect stack...";
+            }
+            
+            document.getElementById('progressText').textContent = progressMessage;
+        }
+
+        function updateNavigationState() {
+            const backBtn = document.getElementById('backBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (currentQuestion > 1) {
+                backBtn.style.display = 'block';
+            } else {
+                backBtn.style.display = 'none';
+            }
+            
+            const isAnswered = answers['q' + currentQuestion] !== undefined;
+            nextBtn.disabled = !isAnswered;
         }
 
         function showResults() {
-            const workoutFreq = answers.q2;
-            const goal = answers.q3;
-            
-            let stackName, description, features, offer, title, savings, price;
-            
-            if (workoutFreq === '0-2days') {
-                title = "STARTER STACK READY!";
-                stackName = "Beginner Performance Stack";
-                description = "Perfect for those starting their fitness journey. Get consistent results with our foundational stack.";
-                features = [
-                    "Creatine Gummies - Blue Raspberry (Monthly)",
-                    "Work Vibes Nootropic Capsules (Monthly)",
-                    "Perfect for 2-3 workouts per week",
-                    "Build strength and mental clarity"
-                ];
-                offer = "SUBSCRIBE & SAVE $10.00";
-                savings = "YOU SAVE $10.00 per month";
-                price = "Monthly Subscription - $49.00/month";
-                
-            } else if (workoutFreq === '3-4days') {
-                title = "YOUR STRENGTH STACK IS READY!";
-                stackName = "Complete Performance Stack";
-                description = "Based on your workout frequency, this stack will maximize your gains and keep you consistent.";
-                features = [
-                    "Creatine Gummies - Blue Raspberry (Monthly)",
-                    "Pre-Workout Gummies - Blue Raspberry (Monthly)",
-                    "Work Vibes Nootropic Capsules (Monthly)",
-                    "Optimal for 3-4 workouts per week",
-                    "Maximum strength and recovery support"
-                ];
-                offer = "SUBSCRIBE & SAVE $15.00";
-                savings = "YOU SAVE $15.00 per month";
-                price = "Triple Stack - $74.00/month";
-                
-            } else {
-                title = "ELITE STACK IS READY!";
-                stackName = "Elite Performance Stack";
-                description = "For serious athletes who train hard. This comprehensive stack will fuel your most intense workouts.";
-                features = [
-                    "2x Creatine Gummies - Blue Raspberry (Monthly)",
-                    "2x Pre-Workout Gummies - Blue Raspberry (Monthly)", 
-                    "Work Vibes Nootropic Capsules (Monthly)",
-                    "Perfect for 5+ workouts per week",
-                    "Professional-grade performance support"
-                ];
-                offer = "SUBSCRIBE & SAVE $25.00";
-                savings = "YOU SAVE $25.00 per month";
-                price = "Elite Stack - $124.00/month";
-            }
-            
-            if (goal === 'muscle') {
-                stackName = stackName.replace('Performance', 'Muscle Building');
-                features.push("Optimized for muscle growth and strength gains");
-            } else if (goal === 'energy') {
-                stackName = stackName.replace('Performance', 'Energy & Endurance');
-                features.push("Enhanced energy and endurance support");
-            } else if (goal === 'focus') {
-                stackName = stackName.replace('Performance', 'Focus & Clarity');
-                features.push("Maximum cognitive enhancement and mental clarity");
-            } else {
-                features.push("Complete wellness and performance optimization");
-            }
-            
-            document.getElementById('resultsTitle').textContent = title;
-            document.getElementById('stackName').textContent = stackName;
-            document.getElementById('stackDescription').textContent = description;
-            document.getElementById('offerTitle').textContent = offer;
-            document.getElementById('savingsText').textContent = savings;
-            document.getElementById('priceInfo').textContent = price;
-            
-            const featuresContainer = document.getElementById('productFeatures');
-            featuresContainer.innerHTML = '';
-            features.forEach(feature => {
-                const featureDiv = document.createElement('div');
-                featureDiv.className = 'feature-item';
-                featureDiv.textContent = feature;
-                featuresContainer.appendChild(featureDiv);
-            });
-            
+            document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
+            document.getElementById('navButtons').style.display = 'none';
             document.getElementById('results').classList.add('active');
-            updateProgressBar(totalQuestions + 1);
         }
 
         function claimOffer() {
-            const workoutFreq = answers.q2;
-            let cartUrl = '';
-            
-            // Build cart URLs based on quiz results
-            if (workoutFreq === '0-2days') {
-                // Starter Stack: Creatine + Nootropics (subscriptions)
-                cartUrl = 'https://tastygains.com/cart/add?id=CREATINE_SUBSCRIPTION_VARIANT_ID:1&id=NOOTROPIC_SUBSCRIPTION_VARIANT_ID:1';
-            } else if (workoutFreq === '3-4days') {
-                // Complete Stack: Creatine + Pre-Workout + Nootropics (subscriptions)
-                cartUrl = 'https://tastygains.com/cart/add?id=CREATINE_SUBSCRIPTION_VARIANT_ID:1&id=PREWORKOUT_SUBSCRIPTION_VARIANT_ID:1&id=NOOTROPIC_SUBSCRIPTION_VARIANT_ID:1';
-            } else {
-                // Elite Stack: 2x Creatine + 2x Pre-Workout + Nootropics (subscriptions)
-                cartUrl = 'https://tastygains.com/cart/add?id=CREATINE_SUBSCRIPTION_VARIANT_ID:2&id=PREWORKOUT_SUBSCRIPTION_VARIANT_ID:2&id=NOOTROPIC_SUBSCRIPTION_VARIANT_ID:1';
-            }
-            
+            const cartUrl = 'https://tastygains.com/cart/add?id=CREATINE_SUBSCRIPTION_VARIANT_ID:1&id=PREWORKOUT_SUBSCRIPTION_VARIANT_ID:1&id=NOOTROPIC_SUBSCRIPTION_VARIANT_ID:1';
             console.log('Quiz answers:', answers);
+            console.log('User profile:', userProfile);
             console.log('Redirecting to cart:', cartUrl);
-            
-            // Redirect to cart with pre-populated items
             window.open(cartUrl, '_blank');
         }
 
         function viewOneTime() {
-            const workoutFreq = answers.q2;
-            let cartUrl = '';
-            
-            // Build one-time purchase URLs
-            if (workoutFreq === '0-2days') {
-                cartUrl = 'https://tastygains.com/cart/add?id=CREATINE_ONETIME_VARIANT_ID:1&id=NOOTROPIC_ONETIME_VARIANT_ID:1';
-            } else if (workoutFreq === '3-4days') {
-                cartUrl = 'https://tastygains.com/cart/add?id=CREATINE_ONETIME_VARIANT_ID:1&id=PREWORKOUT_ONETIME_VARIANT_ID:1&id=NOOTROPIC_ONETIME_VARIANT_ID:1';
-            } else {
-                cartUrl = 'https://tastygains.com/cart/add?id=CREATINE_ONETIME_VARIANT_ID:2&id=PREWORKOUT_ONETIME_VARIANT_ID:2&id=NOOTROPIC_ONETIME_VARIANT_ID:1';
-            }
-            
+            const cartUrl = 'https://tastygains.com/cart/add?id=CREATINE_ONETIME_VARIANT_ID:1&id=PREWORKOUT_ONETIME_VARIANT_ID:1&id=NOOTROPIC_ONETIME_VARIANT_ID:1';
             console.log('One-time purchase cart:', cartUrl);
             window.open(cartUrl, '_blank');
         }
@@ -725,13 +1553,43 @@
         function retakeQuiz() {
             currentQuestion = 1;
             answers = {};
+            userProfile = {};
+            
+            document.querySelectorAll('.option.selected').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            document.querySelectorAll('.education-tip, .social-proof').forEach(element => {
+                element.remove();
+            });
+            
             document.querySelectorAll('.question').forEach(q => q.classList.remove('active'));
-            document.getElementById('q1').classList.add('active');
-            updateProgressBar(1);
+            document.getElementById('results').classList.remove('active');
+            
+            document.getElementById('navButtons').style.display = 'flex';
+            document.querySelector('[data-question="1"]').classList.add('active');
+            
+            updateProgress();
+            updateNavigationState();
+            
+            console.log('Quiz retaken - reset to question 1');
         }
 
-        // Initialize progress bar
-        updateProgressBar(1);
+        document.addEventListener('DOMContentLoaded', function() {
+            initQuiz();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('nextBtn').disabled) {
+                nextQuestion();
+            } else if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
+                if (currentQuestion > 1) {
+                    previousQuestion();
+                }
+            }
+        });
+
+        console.log('Quiz Analytics: quiz_started', { timestamp: new Date() });
     </script>
 </body>
 </html>
